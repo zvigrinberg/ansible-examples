@@ -1,0 +1,33 @@
+- name: bring next line
+  shell:  "tail -n +{{ linesCount }} output.out | head -n 1"
+  register: line
+
+- name: trim line
+  set_fact:
+    theLine: "{{ line.stdout  | replace('-','') | trim }}"
+
+- name: print linesCount
+  debug:
+    msg: " The line count = {{ linesCount }} , line = {{ theLine }}"
+  tags: [print_action,debug]
+
+- name: print next line from script output
+  debug:
+    msg: " {{ theLine }} "
+  when: theLine != "" and theLine != lastLine
+  tags: [print_action]
+
+- name: update last line with current fetched line
+  set_fact:
+    lastLine: "{{ theLine | trim }}"
+    linesCount: '{{ linesCount | int + 1 }}'
+  when: theLine != "" and theLine != lastLine
+
+- name: get job status
+  async_status:
+    jid: '{{ scripter.ansible_job_id }}'
+  register: script_status
+
+- name: call print lines recursively
+  include_tasks: 'print-lines.yaml'
+  when: not script_status.finished

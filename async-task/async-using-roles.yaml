@@ -1,0 +1,14 @@
+- name: Play 01 - Execute the long running task and display output in real-time
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - include_role:
+      name: long_run
+    vars:
+      long_run_title: "my script logging"
+      long_run_output_path: "/home/zgrinber/git/ansible-examples/async-task"
+      long_run_output_file: "script.log"
+      long_run_path: "//home/zgrinber/git/ansible-examples/async-task"
+      long_run_cmd: "./script.sh"
+      long_run_timeout: 70
+      long_run_poll: 1
