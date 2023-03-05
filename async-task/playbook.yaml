@@ -1,28 +1,30 @@
 - hosts: localhost
+  vars: 
+    script_file: output.out
   tasks:
     - name: Delete Output file
       file:
-        path: output.out
+        path: "{{ script_file }}"
         state: absent
 
 
     - name: Run script
       shell: |
-        echo "Start Of Script"
-        echo "about to start"
+        echo "Start Of Script" >> "{{ script_file }}"
+        echo "about to start" >> "{{ script_file }}"
         sleep 20
-        echo "Middle of Script"
-        echo "in the middle"
-        echo "in the middle 2"
-        echo "in the middle 3"
+        echo "Middle of Script" >> "{{ script_file }}"
+        echo "in the middle" >> "{{ script_file }}"
+        echo "in the middle 2" >> "{{ script_file }}"
+        echo "in the middle 3" >> "{{ script_file }}"
         sleep 10
-        echo "3 stage of  Script"
-        echo "3 stage of  Script 2"
-        echo "3 stage of  Script 3"
+        echo "3 stage of  Script" >> "{{ script_file }}"
+        echo "3 stage of  Script 2" >> "{{ script_file }}"
+        echo "3 stage of  Script 3" >> "{{ script_file }}"
         sleep 20
-        echo "4 stage of  Script"
+        echo "4 stage of  Script" >> "{{ script_file }}"
         sleep 15
-        echo "final stage of  Script"
+        echo "final stage of  Script" >> "{{ script_file }}"
         sleep 3
       async: 70
       poll: 0
@@ -31,7 +33,7 @@
     - name: Initialize row holder
       set_fact:
         lastLine: ""
-        lineCount: 1
+        linesCount: 1
 
     - name: print lines
       include_tasks: print-lines.yaml

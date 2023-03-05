@@ -1,5 +1,5 @@
 - name: bring next line
-  shell:  "tail -n +{{ linesCount }} output.out | head -n 1"
+  shell:  "tail -n +{{ linesCount }} {{ script_file }} | head -n 1"
   register: line
 
 - name: trim line
@@ -9,7 +9,7 @@
 - name: print linesCount
   debug:
     msg: " The line count = {{ linesCount }} , line = {{ theLine }}"
-  tags: [print_action,debug]
+  tags: [debug]
 
 - name: print next line from script output
   debug:
