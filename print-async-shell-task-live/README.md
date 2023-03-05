@@ -1,4 +1,4 @@
-# Print live output of shell script task that invoked asynchronously 
+# Print live output of shell script task that was invoked asynchronously 
 
 
 ## Prerequisites
